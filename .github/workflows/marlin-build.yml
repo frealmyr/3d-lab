@@ -18,15 +18,16 @@ jobs:
 
       - name: Compile Marlin firmware
         run: |
-          docker run -u root:root \
+          docker run \
+            -u root:root \
             -e BOARD \
             -e UPDATE_FORCE=true \
-            -v $(pwd)/builds:/home/platformio/build \
-            -v $(pwd)/CustomConfiguration:/home/platformio/CustomConfiguration \
+            -v $(pwd)/Firmware/Builds:/home/platformio/build \
+            -v $(pwd)/Firmware/Configuration:/home/platformio/CustomConfiguration \
             frealmyr/docker-marlin-build:latest
 
       - name: Generate .md5 files for all .bin files
-        run: for file in $(pwd)/builds/$BOARD/*bin; do md5sum "$file" > "$file".md5; done
+        run: sudo bash -c "for file in $(pwd)/Firmware/Builds/$BOARD/*bin; do md5sum '$file' > '$file'.md5; done"
 
       - uses: mikeal/publish-to-github-action@master
         env:
