@@ -1,0 +1,29 @@
+name: Build marlin firmware
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_push:
+    name: Build and push firmware
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Compile Marlin firmware
+        run: |
+          docker run \
+            -u root:root \
+            -e UPDATE_FORCE=true \
+            -e BOARD=STM32F103RC_btt_512K \
+            -v $(pwd)/builds:/home/platformio/build \
+            -v $(pwd)/CustomConfiguration:/home/platformio/CustomConfiguration \
+            frealmyr/docker-marlin-build:latest
+
+      - uses: mikeal/publish-to-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
