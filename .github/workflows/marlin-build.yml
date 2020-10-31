@@ -26,9 +26,6 @@ jobs:
             -v $(pwd)/Firmware/Configuration:/home/platformio/CustomConfiguration \
             frealmyr/docker-marlin-build:latest
 
-      - name: Generate .md5 files for all .bin files
-        run: sudo bash -c "for file in $(pwd)/Firmware/Builds/$BOARD/*bin; do md5sum '$file' > '$file'.md5; done"
-
       - uses: mikeal/publish-to-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
