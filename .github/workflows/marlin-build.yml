@@ -9,6 +9,8 @@ jobs:
   build_and_push:
     name: Build and push firmware
     runs-on: ubuntu-latest
+    env:
+      BOARD: STM32F103RC_btt_512K
 
     steps:
       - name: Check out the repo
@@ -16,13 +18,15 @@ jobs:
 
       - name: Compile Marlin firmware
         run: |
-          docker run \
-            -u root:root \
+          docker run -u root:root \
+            -e BOARD \
             -e UPDATE_FORCE=true \
-            -e BOARD=STM32F103RC_btt_512K \
             -v $(pwd)/builds:/home/platformio/build \
             -v $(pwd)/CustomConfiguration:/home/platformio/CustomConfiguration \
             frealmyr/docker-marlin-build:latest
+
+      - name: Generate .md5 files for all .bin files
+        run: for file in $(pwd)/builds/$BOARD/*bin; do md5sum "$file" > "$file".md5; done
 
       - uses: mikeal/publish-to-github-action@master
         env:
