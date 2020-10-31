@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'Firmware/Configuration/**.h'
 
 jobs:
   build_and_push:
