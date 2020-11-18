@@ -28,6 +28,9 @@ jobs:
             -v $(pwd)/Firmware/Configuration:/home/platformio/CustomConfiguration \
             frealmyr/marlin-build:latest
 
-      - uses: mikeal/publish-to-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create commit and push firmware
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git commit -am "gha compiled firmware"
+          git push
