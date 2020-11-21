@@ -1,4 +1,4 @@
-name: Build marlin firmware
+name: Build Marlin Firmware
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build_and_push:
-    name: Compile and push firmware
+    name: Compile and Push Firmware
     runs-on: ubuntu-latest
     env:
       BOARD: STM32F103RC_btt_512K
