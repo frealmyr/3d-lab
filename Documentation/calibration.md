@@ -63,9 +63,9 @@ G29 T
 G29 P3 T
 ```
 
-5. Save mesh to EEPROM, set fade height, activate UBL, save configuration
+5. Save mesh to slot 0 in EEPROM, set fade height, activate UBL, save configuration
 ```gcode
-G29 S1
+G29 S0
 G29 F 5.0
 G29 A
 M500
